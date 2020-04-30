@@ -1,13 +1,13 @@
 Hubitat Drivers Driver for Hubitat Elevation Hub
 (This is a work in progress any feedback will be really appreciate)
-What you need:
-•	A Hubitat Hub
-•	A USR-TCP232-302 Low-Cost RS232 Serial to Ethernet Converter
-•	DB9 to DB9 RS232 Serial Cable Male to Male
-•	Connect RS232 Serial to Ethernet to the switch or router on the same network where your habitat hub and pc you are using to configure the device is
-•	Connect RS232 Serial to Ethernet to the console port on the back of the amp whit DB9 to DB9 RS232 Serial Cable
-•	Now you need to find the IP that the device have use the default IP in the one a got was 192.168.0.7 and put the network card of the pc on the same range
-•	Log in to the device and go to the local IP Config decide if you want use DHCP (let the router give an IP you much set an static reservation) or you are going to set the IP Static using an IP you know the router is not going to assign to another device. In any case you got to select a IP inside the same range of your hub.
+    What you need:
+    •	A Hubitat Hub
+    •	A USR-TCP232-302 Low-Cost RS232 Serial to Ethernet Converter
+    •	DB9 to DB9 RS232 Serial Cable Male to Male
+    •	Connect RS232 Serial to Ethernet to the switch or router on the same network where your habitat hub and pc you are using to configure the device is
+    •	Connect RS232 Serial to Ethernet to the console port on the back of the amp whit DB9 to DB9 RS232 Serial Cable
+    •	Now you need to find the IP that the device have use the default IP in the one a got was 192.168.0.7 and put the network card of the pc on the same range
+    •	Log in to the device and go to the local IP Config decide if you want use DHCP (let the router give an IP you much set an static reservation) or you are going to set the IP Static using an IP you know the router is not going to assign to another device. In any case you got to select a IP inside the same range of your hub.
 •	Go to Serial Port and set it this way:
 Baud Rate：9600
 Data Size: 8
