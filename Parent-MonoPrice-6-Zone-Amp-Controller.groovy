@@ -13,6 +13,7 @@ metadata {
 		command "sendMsg" , ["STRING"]
 		command "CloseTelnet"
 		command "setChildzones"
+		command "Unschedule"
 	}
 	preferences {
 		section("Device Settings:") 
@@ -27,17 +28,24 @@ metadata {
 			input "Zone6Name", "String", title:"Name Of Zone 6", description: "", required: true, defaultValue: "Zone_6"
 			input name: "logEnable", type: "bool", title: "Enable debug logging", defaultValue: true
 			input name: "NumberAmps", type: "enum", description: "", title: "Number Amps", options: [[1:"1"],[2:"2"],[3:"3"]], defaultValue: 1
+			input name: "PollSchedule", type: "enum", description: "", title: "Poll frequency in min", options: [[1:"1"],[2:"5"],[3:"15"],[4:"30"]], defaultValue: 1
+			// 1, 5, 15 and 30 minites
 		}
 	}
 }
+def Unschedule(){
+	if (logEnable) log.debug "Parent unschedule"
+	unschedule()
+}
 def setChildzones(){
+	if (logEnable) log.debug "Parent setChildzones"
 	def children = getChildDevices()
 	children.each {child->
 		child.setZone()
 	}
 }
 def recreateChildDevices() {
-    log.debug "Parent recreateChildDevices"
+	if (logEnable) log.debug "Parent recreateChildDevices"
     deleteChildren()
     createChildDevices()
 }
@@ -52,14 +60,15 @@ def createChildDevices() {
 	setChildzones ()
 }
 def deleteChildren() {
-	log.debug "Parent deleteChildren"
+	if (logEnable) log.debug "Parent deleteChildren"
 	def children = getChildDevices()
     children.each {child->
   		deleteChildDevice(child.deviceNetworkId)
     }
 }
 def CloseTelnet(){
-telnetClose() 
+    telnetClose() 
+	unschedule()
 }
 def installed() {
 	log.info('Parent MonoPrice 6 Zone Amp Controller: installed()')
@@ -69,8 +78,6 @@ def installed() {
 def updated(){
 	log.info('Parent MonoPrice 6 Zone Amp Controller: updated()')
 	initialize()
-	unschedule()
-	runEvery1Minute(pollSchedule)
 	recreateChildDevices()
 }
 def pollSchedule(){
@@ -79,39 +86,38 @@ def pollSchedule(){
 def initialize(){
 	log.info('Parent MonoPrice 6 Zone Amp Controller: initialize()')
 	telnetClose() 
-	//
 	telnetConnect([termChars:[13]], settings.IP, settings.port as int, '', '')
+    unschedule()
+	switch (settings.PollSchedule) {
+        case "1": runEvery1Minute(pollSchedule);log.info('pollSchedule 1 minute'); break;
+        case "2": runEvery5Minute(pollSchedule);log.info('pollSchedule 5 minute'); break;
+        case "3": runEvery15Minute(pollSchedule);log.info('pollSchedule 15 minute'); break;
+		case "4": runEvery30Minute(pollSchedule);log.info('pollSchedule 30 minute'); break;
+        default: log.info('pollSchedule ERROR');
+	}
+	runEvery1Minute(pollSchedule)
 //	telnetConnect([termChars:[11,12]], settings.IP, settings.port as int, '', '')
 //	telnetConnect([terminalType: 'VT100'], settings.IP, settings.port as int, '', '')
-
 }
 def forcePoll(){
-	log.debug "Polling"
+	if (logEnable) log.debug "Polling"
 	sendMsg("?10")
 }
-def poll(){
-	forcePoll()
-/*    if(now() - state.lastPoll > (60000))
-        forcePoll()
-    else
-        log.debug "poll called before interval threshold was reached"
-*/
-}
+def poll(){forcePoll()}
+
 def sendMsg(String msg){
-	
 	log.info("Sending telnet msg: " + msg)
 	return new hubitat.device.HubAction(msg, hubitat.device.Protocol.TELNET)
 }
 private parse(String msg) {
-	log.debug("Parse: " + msg)
-	
-	if (!(msg.contains("Command Error")) && (msg.length()>5))
+	if (logEnable) log.debug("Parse: " + msg)
+	if (!(msg.contains("Command Error")) && (msg.length()>5) && (msg.startsWith("#>")))
 	{
 	def children = getChildDevices()
 	children.each {child->
 		if (msg.substring(3,5).toInteger() == child.currentValue("zone")){
 			child.UpdateData (msg)
-//			log.debug("found mach: "+ msg)
+			if (logEnable) log.debug ("found mach: "+ msg)
 		}
 	  }
 	}
