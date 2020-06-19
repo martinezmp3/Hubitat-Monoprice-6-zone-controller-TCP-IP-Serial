@@ -1,3 +1,15 @@
+/* 
+Parent driver fo Monoprice 6 zone audio 
+monoprice.com/product?p_id=10761
+This driver is to control the monoprice 6 zone amplifier. 
+I wrote this diver for personal use. If you decide to use it, do it at your own risk. 
+No guarantee or liability is accepted for damages of any kind. 
+for the driver to work it also needs RS232 to Ethernet like this one 
+https://www.aliexpress.com/item/32988953549.html?spm=a2g0o.productlist.0.0.517f5e27r8pql4&algo_pvid=f21f7b9e-0d3b-4920-983c-d9df0da59484&algo_expid=f21f7b9e-0d3b-4920-983c-d9df0da59484-1&btsid=0ab6f83115925263810321337e7408&ws_ab_test=searchweb0_0,searchweb201602_,searchweb201603_
+https://www.amazon.com/USR-TCP232-302-Serial-Ethernet-Converter-Support/dp/B01GPGPEBM/ref=sr_1_6?dchild=1&keywords=RS232+to+Ethernet&qid=1592526464&sr=8-6
+Jorge Martinez
+*/
+
 metadata {
 	definition (name: "Parent MonoPrice 6 Zone Amp Controller", namespace: "jorge.martinez", author: "Jorge Martinez"){
 		capability "Polling"
@@ -78,7 +90,7 @@ def installed() {
 def updated(){
 	log.info('Parent MonoPrice 6 Zone Amp Controller: updated()')
 	initialize()
-	recreateChildDevices()
+	//recreateChildDevices()
 }
 def pollSchedule(){
     forcePoll()
@@ -90,14 +102,12 @@ def initialize(){
     unschedule()
 	switch (settings.PollSchedule) {
         case "1": runEvery1Minute(pollSchedule);log.info('pollSchedule 1 minute'); break;
-        case "2": runEvery5Minute(pollSchedule);log.info('pollSchedule 5 minute'); break;
-        case "3": runEvery15Minute(pollSchedule);log.info('pollSchedule 15 minute'); break;
-		case "4": runEvery30Minute(pollSchedule);log.info('pollSchedule 30 minute'); break;
+        case "2": runEvery5Minutes(pollSchedule);log.info('pollSchedule 5 minute'); break;
+        case "3": runEvery15Minutes(pollSchedule);log.info('pollSchedule 15 minute'); break;
+		case "4": runEvery30Minutes(pollSchedule);log.info('pollSchedule 30 minute'); break;
         default: log.info('pollSchedule ERROR');
 	}
-	runEvery1Minute(pollSchedule)
-//	telnetConnect([termChars:[11,12]], settings.IP, settings.port as int, '', '')
-//	telnetConnect([terminalType: 'VT100'], settings.IP, settings.port as int, '', '')
+	forcePoll()
 }
 def forcePoll(){
 	if (logEnable) log.debug "Polling"
@@ -110,14 +120,14 @@ def sendMsg(String msg){
 	return new hubitat.device.HubAction(msg, hubitat.device.Protocol.TELNET)
 }
 private parse(String msg) {
-	if (logEnable) log.debug("Parse: " + msg)
-	if (!(msg.contains("Command Error")) && (msg.length()>5) && (msg.startsWith("#>")))
-	{
-	def children = getChildDevices()
-	children.each {child->
-		if (msg.substring(3,5).toInteger() == child.currentValue("zone")){
-			child.UpdateData (msg)
-			if (logEnable) log.debug ("found mach: "+ msg)
+	if (logEnable) log.debug("Parse recive: " + msg)
+	//if (!(msg.contains("Command Error")) && (msg.length()>5) && (msg.startsWith("#>"))){
+    if (msg.substring(1,3)==("#>")) {
+        def children = getChildDevices()
+	    children.each {child->
+		    if (msg.substring(3,5).toInteger() == child.currentValue("zone")){
+			    child.UpdateData (msg)
+			    if (logEnable) log.debug ("found mach: "+ msg)
 		}
 	  }
 	}
