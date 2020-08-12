@@ -67,13 +67,31 @@ def recreateChildDevices() {
     createChildDevices()
 }
 def createChildDevices() {
-	log.debug "Parent createChildDevices"
+	log.debug "Parent createChildDevices ${settings.NumberAmps}"
 	addChildDevice("jorge.martinez","Child MonoPrice 6 Zone Amp Controller", "MP6ZA-child-11", [name: "child-${Zone1Name}", label: "${settings.Zone1Name}", zone: 11, isComponent: false])
 	addChildDevice("jorge.martinez","Child MonoPrice 6 Zone Amp Controller", "MP6ZA-child-12", [name: "child-${Zone2Name}", label: "${settings.Zone2Name}", zone: 12, isComponent: false])
 	addChildDevice("jorge.martinez","Child MonoPrice 6 Zone Amp Controller", "MP6ZA-child-13", [name: "child-${Zone3Name}", label: "${settings.Zone3Name}", zone: 13, isComponent: false])
 	addChildDevice("jorge.martinez","Child MonoPrice 6 Zone Amp Controller", "MP6ZA-child-14", [name: "child-${Zone4Name}", label: "${settings.Zone4Name}", zone: 14, isComponent: false])
 	addChildDevice("jorge.martinez","Child MonoPrice 6 Zone Amp Controller", "MP6ZA-child-15", [name: "child-${Zone5Name}", label: "${settings.Zone5Name}", zone: 15, isComponent: false])
 	addChildDevice("jorge.martinez","Child MonoPrice 6 Zone Amp Controller", "MP6ZA-child-16", [name: "child-${Zone6Name}", label: "${settings.Zone6Name}", zone: 16, isComponent: false])
+    if (settings.NumberAmps.toInteger() > 1){
+        if (logEnable) log.debug "Parent: 2 amp ceating 2nd set of childerens"
+        addChildDevice("jorge.martinez","Child MonoPrice 6 Zone Amp Controller", "MP6ZA-child-21", [name: "child-${Zone7Name}", label: "${settings.Zone7Name}", zone: 21, isComponent: false])
+	    addChildDevice("jorge.martinez","Child MonoPrice 6 Zone Amp Controller", "MP6ZA-child-22", [name: "child-${Zone8Name}", label: "${settings.Zone8Name}", zone: 22, isComponent: false])
+	    addChildDevice("jorge.martinez","Child MonoPrice 6 Zone Amp Controller", "MP6ZA-child-23", [name: "child-${Zone9Name}", label: "${settings.Zone9Name}", zone: 23, isComponent: false])
+	    addChildDevice("jorge.martinez","Child MonoPrice 6 Zone Amp Controller", "MP6ZA-child-24", [name: "child-${Zone10Name}", label: "${settings.Zone10Name}", zone: 24, isComponent: false])
+	    addChildDevice("jorge.martinez","Child MonoPrice 6 Zone Amp Controller", "MP6ZA-child-25", [name: "child-${Zone11Name}", label: "${settings.Zone11Name}", zone: 25, isComponent: false])
+	    addChildDevice("jorge.martinez","Child MonoPrice 6 Zone Amp Controller", "MP6ZA-child-26", [name: "child-${Zone12Name}", label: "${settings.Zone12Name}", zone: 26, isComponent: false])
+    }
+    if (settings.NumberAmps.toInteger() == 3){
+        if (logEnable) log.debug "Parent: 3 amp ceating 3er set of childerens"
+        addChildDevice("jorge.martinez","Child MonoPrice 6 Zone Amp Controller", "MP6ZA-child-31", [name: "child-${Zone13Name}", label: "${settings.Zone13Name}", zone: 31, isComponent: false])
+	    addChildDevice("jorge.martinez","Child MonoPrice 6 Zone Amp Controller", "MP6ZA-child-32", [name: "child-${Zone14Name}", label: "${settings.Zone14Name}", zone: 32, isComponent: false])
+	    addChildDevice("jorge.martinez","Child MonoPrice 6 Zone Amp Controller", "MP6ZA-child-33", [name: "child-${Zone15Name}", label: "${settings.Zone15Name}", zone: 33, isComponent: false])
+	    addChildDevice("jorge.martinez","Child MonoPrice 6 Zone Amp Controller", "MP6ZA-child-34", [name: "child-${Zone16Name}", label: "${settings.Zone16Name}", zone: 34, isComponent: false])
+	    addChildDevice("jorge.martinez","Child MonoPrice 6 Zone Amp Controller", "MP6ZA-child-35", [name: "child-${Zone17Name}", label: "${settings.Zone17Name}", zone: 35, isComponent: false])
+	    addChildDevice("jorge.martinez","Child MonoPrice 6 Zone Amp Controller", "MP6ZA-child-36", [name: "child-${Zone18Name}", label: "${settings.Zone18Name}", zone: 36, isComponent: false])
+    }     
 	setChildzones ()
 }
 def deleteChildren() {
