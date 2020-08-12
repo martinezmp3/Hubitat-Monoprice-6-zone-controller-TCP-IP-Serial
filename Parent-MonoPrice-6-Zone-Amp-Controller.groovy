@@ -7,6 +7,11 @@ No guarantee or liability is accepted for damages of any kind.
 for the driver to work it also needs RS232 to Ethernet like this one 
 https://www.aliexpress.com/item/32988953549.html?spm=a2g0o.productlist.0.0.517f5e27r8pql4&algo_pvid=f21f7b9e-0d3b-4920-983c-d9df0da59484&algo_expid=f21f7b9e-0d3b-4920-983c-d9df0da59484-1&btsid=0ab6f83115925263810321337e7408&ws_ab_test=searchweb0_0,searchweb201602_,searchweb201603_
 https://www.amazon.com/USR-TCP232-302-Serial-Ethernet-Converter-Support/dp/B01GPGPEBM/ref=sr_1_6?dchild=1&keywords=RS232+to+Ethernet&qid=1592526464&sr=8-6
+        08/11/2020
+        this driver also work on a rasberry pi running ser2net.py by Pavel Revak https://github.com/pavelrevak/ser2tcp
+        is recomended to daemonize the scrips instruction on the gihub https://github.com/martinezmp3/Hubitat-Monoprice-6-zone-controller/blob/master/README.md
+        08/12/2020 
+        theoretical compatibility with 2 and 3 amps connected as a chain i dont own a second amp
 Jorge Martinez
 */
 
@@ -109,9 +114,30 @@ def initialize(){
 	}
 	forcePoll()
 }
+
+def pollAmp1 (){
+    if (logEnable) log.debug "Polling First 6 zones"
+    sendMsg("?10")
+}
+def pollAmp2 (){
+    if (logEnable) log.debug "Polling second 6 zones"
+    sendMsg("?20")
+}
+def pollAmp3 (){
+    if (logEnable) log.debug "Polling third 6 zones"
+    sendMsg("?30")
+}
+
 def forcePoll(){
-	if (logEnable) log.debug "Polling"
-	sendMsg("?10")
+    runIn(1,"pollAmp1")
+    if (settings.NumberAmps.toInteger() > 1){
+        runIn(4,"pollAmp2")
+    }
+    if (settings.NumberAmps.toInteger() == 3){
+        runIn(7,"pollAmp3")
+    }
+/*	if (logEnable) log.debug "Polling"
+	sendMsg("?10")*/
 }
 def poll(){forcePoll()}
 
