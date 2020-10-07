@@ -37,7 +37,7 @@ Ctrl+a and Ctrl+c to Copy
 -	In the window that appears, please fill in the "Device Name", "Device Label", and "Device Network Id" fields. Make sure the Device Network Id field is UNIQUE! No other device on rout hub could have the same Network id
 -	In the type filed look for “Parent MonoPrice 6 Zone Amp Controller”
 -	Click save
--	In the Preferences section IP = IP of RS232 Serial to Ethernet, port = port of RS232 Serial to Ethernet (if you fallow al the instructions so far then 23), Number of amp is if you have more than one amp (not implemented yet), Name of zone = is wherever name you have for each zone Livingroom kitchen… the parent device will create a child device per Zone
+-	In the Preferences section IP = IP of RS232 Serial to Ethernet, port = port of RS232 Serial to Ethernet (if you fallow al the instructions so far then 23), Number of amp is if you have more than one amp , Name of zone = is wherever name you have for each zone Livingroom kitchen… the parent device will create a child device per Zone
 -	Click save
 -	If everything went well in a few seconds you should be able to see all the childs devices and will be able to control them.
 
