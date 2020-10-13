@@ -26,8 +26,11 @@ For RS232 Serial to Ethernet :
 	LINK： check
 	INDEX: uncheck
 	Similar RFC2217：uncheck
+	
 For Linux base system (raspberry pi) with ser2net:
--	install and setup ser2tcp paquech is avalibe on apt so you could do (sudo apt-get install ser2net) https://howtoinstall.co/en/ubuntu/xenial/ser2net
+
+install and setup ser2tcp paquech is avalibe on apt so you could do (sudo apt-get install ser2net) https://howtoinstall.co/en/ubuntu/xenial/ser2net
+
 
 -	Now add drivers to your habitat hub open up https://raw.githubusercontent.com/martinezmp3/Hubitat-Monoprice-6-zone-controller-TCP-IP-Serial/master/Child-MonoPrice-6-Zone-Amp-Controller.groovy
 Ctrl+a and Ctrl+c to Copy
