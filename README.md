@@ -5,7 +5,7 @@ Hubitat Drivers Driver for Hubitat Elevation Hub
 	What you need:
 	
 -	A Hubitat Hub
--	A USR-TCP232-302 Low-Cost RS232 Serial to Ethernet Converter or Linux base device with ser2tcp.py by Pavel Revak (https://github.com/pavelrevak/ser2tcp) 
+-	A USR-TCP232-302 Low-Cost RS232 Serial to Ethernet Converter or Linux base device (raspberry pi) with ser2tcp.py by Pavel Revak (https://github.com/pavelrevak/ser2tcp) 
 -	DB9 to DB9 RS232 Serial Cable Male to Male
 
 	Instalation instructions:
