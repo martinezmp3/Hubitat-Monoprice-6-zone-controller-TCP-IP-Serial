@@ -5,11 +5,12 @@ Hubitat Drivers Driver for Hubitat Elevation Hub
 	What you need:
 	
 -	A Hubitat Hub
--	A USR-TCP232-302 Low-Cost RS232 Serial to Ethernet Converter
+-	A USR-TCP232-302 Low-Cost RS232 Serial to Ethernet Converter or Linux base device with ser2tcp.py by Pavel Revak (https://github.com/pavelrevak/ser2tcp) 
 -	DB9 to DB9 RS232 Serial Cable Male to Male
 
 	Instalation instructions:
-	
+
+For RS232 Serial to Ethernet :
 -	Connect RS232 Serial to Ethernet to the switch or router on the same network where your habitat hub and pc you are using to configure the device is
 -	Connect RS232 Serial to Ethernet to the console port on the back of the amp whit DB9 to DB9 RS232 Serial Cable
 -	Now you need to find the IP that the device have use the default IP in the one a got was 192.168.0.7 and put the network card of the pc on the same range
@@ -25,6 +26,9 @@ Hubitat Drivers Driver for Hubitat Elevation Hub
 	LINK： check
 	INDEX: uncheck
 	Similar RFC2217：uncheck
+For Linux base system (raspberry pi) with ser2net install and setup ser2tcp paquech is avalibe on apt so you could do (sudo apt-get install ser2net)
+https://howtoinstall.co/en/ubuntu/xenial/ser2net
+
 -	Now add drivers to your habitat hub open up https://raw.githubusercontent.com/martinezmp3/Hubitat-Monoprice-6-zone-controller-TCP-IP-Serial/master/Child-MonoPrice-6-Zone-Amp-Controller.groovy
 Ctrl+a and Ctrl+c to Copy
 -	In your hub web page, select the "Drivers Code" section and then click the "+ New Driver" button
@@ -41,5 +45,5 @@ Ctrl+a and Ctrl+c to Copy
 -	Click save
 -	If everything went well in a few seconds you should be able to see all the childs devices and will be able to control them.
 
-Note: status change will come on a 60 second interval till this moment no other way to do it.
+Note: to pick up status change you need to set up polling on the parent driver.
 (This is a work in progress any feedback will be really appreciate)
